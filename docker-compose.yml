@@ -16,6 +16,9 @@ services:
     
     networks:
       - netapp
+    
+    volumes:
+      - ./mysqldata:/var/lib/mysql
   myapp:
     image: bitnami/laravel
     ports:
