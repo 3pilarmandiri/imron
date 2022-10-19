@@ -1,0 +1,42 @@
+version: '2'
+
+services:
+  mariadb:
+    image: mariadb:10.6
+    environment:
+      # ALLOW_EMPTY_PASSWORD is recommended only for development.
+      # - ALLOW_EMPTY_PASSWORD=yes
+      - MARIADB_USER=larakube
+      - MARIADB_DATABASE=larakube
+      - MARIADB_PASSWORD=IAqw8yE1mAwhJt59AEVV
+      - MARIADB_ROOT_PASSWORD=rahasia
+
+    ports:
+      - 3307:3306
+    
+    networks:
+      - netapp
+  myapp:
+    image: bitnami/laravel
+    ports:
+      - '8090:8000'
+    environment:
+      - DB_HOST=mariadb
+      - DB_PORT=3306
+      - DB_USERNAME=larakube
+      - DB_DATABASE=larakube
+      - DB_PASSWORD=IAqw8yE1mAwhJt59AEVV
+
+    networks:
+      - netapp
+    
+    volumes:
+      - './myproject:/app'
+    depends_on:
+      - mariadb
+    
+    
+
+networks:
+  netapp:
+    name: netapp
